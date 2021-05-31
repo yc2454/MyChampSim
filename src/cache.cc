@@ -638,7 +638,7 @@ void CACHE::handle_read()
                 if (warmup_complete[read_cpu] && cache_type == IS_L1D) {
                 cout << "[" << NAME << "] " << __func__ << " read miss";
                 // cout << " instr_id: " << RQ.entry[index].instr_id << " address: " << hex << RQ.entry[index].address;
-                cout << " instruction pointer: " << RQ.entry[index].ip << dec;
+                cout << " instruction pointer: " << RQ.entry[index].ip << hex;
                 cout << " full_addr: " << RQ.entry[index].full_addr << dec;
                 cout << " cycle: " << RQ.entry[index].event_cycle << endl; }
 
