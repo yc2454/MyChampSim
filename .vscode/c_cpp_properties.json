@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/Users/yalucai/Downloads/pin-3.18-98332-gaebd7b1e6-clang-mac/source/include/pin",
+                "/Users/yalucai/Downloads/pin-3.18-98332-gaebd7b1e6-clang-mac/extras/xed-intel64/include/xed",
+                "/Users/yalucai/Downloads/pin-3.18-98332-gaebd7b1e6-clang-mac/extras/crt/include",
+                "/Users/yalucai/Downloads/pin-3.18-98332-gaebd7b1e6-clang-mac/extras/crt/include/kernel/uapi",
+                "/Users/yalucai/Downloads/pin-3.18-98332-gaebd7b1e6-clang-mac/extras/crt/include/kernel/uapi/asm-x86",
+                "/Users/yalucai/Downloads/pin-3.18-98332-gaebd7b1e6-clang-mac/source/include/pin/gen",
+                "/Users/yalucai/Downloads/pin-3.18-98332-gaebd7b1e6-clang-mac/extras/components/include"
+            ],
+            "defines": [],
+            "macFrameworkPath": [
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
+            "compilerPath": "/opt/homebrew/opt/llvm/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "macos-clang-arm64"
+        }
+    ],
+    "version": 4
+}

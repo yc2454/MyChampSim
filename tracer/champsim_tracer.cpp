@@ -27,6 +27,12 @@ typedef struct trace_instr_format {
 
     unsigned long long int destination_memory[NUM_INSTR_DESTINATIONS]; // output memory
     unsigned long long int source_memory[NUM_INSTR_SOURCES];           // input memory
+
+    unsigned long long int op;
+
+    unsigned long long int source_offsets[NUM_INSTR_SOURCES * NUM_INSTR_SOURCES];
+    unsigned long long int destination_offsets[NUM_INSTR_DESTINATIONS * NUM_INSTR_DESTINATIONS];
+
 } trace_instr_format_t;
 
 /* ================================================================== */
@@ -95,6 +101,7 @@ void BeginInstruction(VOID *ip, UINT32 op_code, VOID *opstring)
 
     // reset the current instruction
     curr_instr.ip = (unsigned long long int)ip;
+    curr_instr.op = (unsigned long long int)op_code;
 
     curr_instr.is_branch = 0;
     curr_instr.branch_taken = 0;
@@ -306,6 +313,14 @@ void MemoryWrite(VOID* addr, UINT32 index)
        */
 }
 
+void findOffset (VOID* effectiveAddr, UINT32 regAddr, UINT32 memIndex, UINT32 regIndex)
+{
+    unsigned long long int offset = (unsigned long long int) effectiveAddr - regAddr;
+    
+    curr_instr.source_offsets[memIndex * NUM_INSTR_SOURCES + regIndex] = offset;
+
+}
+
 /* ===================================================================== */
 // Instrumentation callbacks
 /* ===================================================================== */
@@ -362,6 +377,24 @@ VOID Instruction(INS ins, VOID *v)
             INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)MemoryWrite,
                     IARG_MEMORYOP_EA, memOp, IARG_UINT32, memOp,
                     IARG_END);
+        }
+    }
+
+    for (UINT32 memOp = 0; memOp < memOperands; memOp++) 
+    {
+        if (INS_MemoryOperandIsRead(ins, memOp)) 
+        {
+            UINT32 read_size = INS_MemoryReadSize(ins);
+
+            for(UINT32 i=0; i<readRegCount; i++) 
+            {
+                REG regNum = INS_RegR(ins, i);
+
+                INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)findOffset,
+                                IARG_MEMORYOP_EA, IARG_REG_VALUE, regNum,
+                                IARG_UINT32, i, IARG_UINT32 memOP,
+                                IARG_END);
+            }
         }
     }
 

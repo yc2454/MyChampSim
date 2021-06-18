@@ -639,7 +639,7 @@ void CACHE::handle_read()
                 cout << "[" << NAME << "] " << __func__ << " read miss";
                 // cout << " instr_id: " << RQ.entry[index].instr_id << " address: " << hex << RQ.entry[index].address;
                 // cout << " instruction pointer: " << RQ.entry[index].ip << hex;
-                cout << hex << " instruction pointer: 0x" << (uint64_t)ip << dec << endl;
+                cout << hex << " instruction pointer: 0x" << (uint64_t)RQ.entry[index].ip << dec << endl;
                 cout << " full_addr: " << RQ.entry[index].full_addr << dec;
                 cout << " cycle: " << RQ.entry[index].event_cycle << endl; }
 
