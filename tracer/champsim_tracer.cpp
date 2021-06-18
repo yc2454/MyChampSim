@@ -390,7 +390,7 @@ VOID Instruction(INS ins, VOID *v)
 
                 INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)findOffset,
                                 IARG_MEMORYREAD_EA, IARG_REG_VALUE, regNum,
-                                IARG_UINT32, i, IARG_UINT32, memOP,
+                                IARG_UINT32, i, IARG_UINT32, memOp,
                                 IARG_END);
             }
         }
