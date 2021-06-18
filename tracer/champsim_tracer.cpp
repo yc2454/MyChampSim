@@ -384,7 +384,6 @@ VOID Instruction(INS ins, VOID *v)
     {
         if (INS_MemoryOperandIsRead(ins, memOp)) 
         {
-            UINT32 read_size = INS_MemoryReadSize(ins);
 
             for(UINT32 i=0; i<readRegCount; i++) 
             {
@@ -392,7 +391,7 @@ VOID Instruction(INS ins, VOID *v)
 
                 INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)findOffset,
                                 IARG_MEMORYOP_EA, IARG_REG_VALUE, regNum,
-                                IARG_UINT32, i, IARG_UINT32 memOP,
+                                IARG_UINT32, i, IARG_UINT32, memOP,
                                 IARG_END);
             }
         }
