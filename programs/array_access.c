@@ -19,7 +19,7 @@ void simple_chase(struct Node *node, int count){
     
 }
 
-int main() {
+int main(int argc, char *argv[]) {
     struct Node* node;
     node->next = NULL;
     
