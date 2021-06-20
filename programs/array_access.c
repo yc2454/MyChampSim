@@ -20,6 +20,7 @@ void simple_chase(struct Node *node, int count){
 }
 
 int main(int argc, char *argv[]) {
+    
     struct Node* node;
     node->next = NULL;
     
@@ -28,6 +29,6 @@ int main(int argc, char *argv[]) {
         node->field[i] = 0;
     }
     
-    simple_chase(node, 5);
+    simple_chase(node, 0);
 
 }
