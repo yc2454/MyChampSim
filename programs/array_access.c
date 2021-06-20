@@ -31,4 +31,6 @@ int main(int argc, char *argv[]) {
     
     simple_chase(node, 0);
 
+    return 0;
+
 }
