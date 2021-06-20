@@ -317,7 +317,7 @@ void findOffset (VOID* effectiveAddr, UINT32 regAddr, UINT32 memIndex, UINT32 re
 {
     unsigned long long int offset = (unsigned long long int) effectiveAddr - regAddr;
     
-    curr_instr.source_offsets[memIndex * NUM_INSTR_SOURCES + regIndex] = offset;
+    curr_instr.source_offsets[0] = offset;
 
 }
 
