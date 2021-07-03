@@ -388,12 +388,14 @@ VOID Instruction(INS ins, VOID *v)
         {
             for(UINT32 i=0; i<readRegCount; i++) 
             {
-                REG regNum = INS_RegR(ins, i);
+                LEVEL_BASE::REG regNum = INS_RegR(ins, i);
 
-                INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)findOffset,
-                                IARG_MEMORYREAD_EA, IARG_REG_VALUE, regNum,
-                                IARG_UINT32, i, IARG_UINT32, memOp,
-                                IARG_END);
+                if (!LEVEL_BASE::REG_is_xmm_ymm_zmm(regNum))
+
+                    INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)findOffset,
+                                    IARG_MEMORYREAD_EA, IARG_REG_VALUE, regNum,
+                                    IARG_UINT32, i, IARG_UINT32, memOp,
+                                    IARG_END);
             }
         }
     }
