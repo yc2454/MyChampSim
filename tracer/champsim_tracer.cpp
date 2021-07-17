@@ -30,8 +30,8 @@ typedef struct trace_instr_format {
 
     unsigned long long int op; // op code 
 
-    unsigned long long int source_offsets[NUM_INSTR_SOURCES * NUM_INSTR_SOURCES];
-    unsigned long long int destination_offsets[NUM_INSTR_DESTINATIONS * NUM_INSTR_DESTINATIONS];
+    // unsigned long long int source_offsets[NUM_INSTR_SOURCES * NUM_INSTR_SOURCES];
+    // unsigned long long int destination_offsets[NUM_INSTR_DESTINATIONS * NUM_INSTR_DESTINATIONS];
 
 } trace_instr_format_t;
 
@@ -315,13 +315,13 @@ void MemoryWrite(VOID* addr, UINT32 index)
 
 // This function is used to record the difference between effective memory and the
 // memory address stored in register 
-void findOffset (VOID* effectiveAddr, UINT32 regAddr, UINT32 memIndex, UINT32 regIndex)
-{
-    unsigned long long int offset = (unsigned long long int) effectiveAddr - regAddr;
+// void findOffset (VOID* effectiveAddr, UINT32 regAddr, UINT32 memIndex, UINT32 regIndex)
+// {
+//     unsigned long long int offset = (unsigned long long int) effectiveAddr - regAddr;
     
-    curr_instr.source_offsets[memIndex * NUM_INSTR_SOURCES + regIndex] = offset;
+//     curr_instr.source_offsets[memIndex * NUM_INSTR_SOURCES + regIndex] = offset;
 
-}
+// }
 
 /* ===================================================================== */
 // Instrumentation callbacks
