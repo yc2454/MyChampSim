@@ -28,7 +28,7 @@ typedef struct trace_instr_format {
     unsigned long long int destination_memory[NUM_INSTR_DESTINATIONS]; // output memory
     unsigned long long int source_memory[NUM_INSTR_SOURCES];           // input memory
 
-    unsigned long long int op; // op code 
+    // unsigned long long int op; // op code 
 
     // unsigned long long int source_offsets[NUM_INSTR_SOURCES * NUM_INSTR_SOURCES];
     // unsigned long long int destination_offsets[NUM_INSTR_DESTINATIONS * NUM_INSTR_DESTINATIONS];
@@ -101,7 +101,7 @@ void BeginInstruction(VOID *ip, UINT32 op_code, VOID *opstring)
 
     // reset the current instruction
     curr_instr.ip = (unsigned long long int)ip;
-    curr_instr.op = (unsigned long long int)op_code;
+    // curr_instr.op = (unsigned long long int)op_code;
 
     curr_instr.is_branch = 0;
     curr_instr.branch_taken = 0;
