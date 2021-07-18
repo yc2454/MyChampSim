@@ -104,6 +104,8 @@ void BeginInstruction(VOID *ip, UINT32 op_code, VOID *opstring)
     curr_instr.ip = (unsigned long long int)ip;
     curr_instr.op = (unsigned long long int)op_code;
 
+    curr_instr.offset = 0;
+
     curr_instr.is_branch = 0;
     curr_instr.branch_taken = 0;
 
@@ -316,13 +318,11 @@ void MemoryWrite(VOID* addr, UINT32 index)
 
 // This function is used to record the difference between effective memory and the
 // memory address stored in register 
-// void findOffset (VOID* effectiveAddr, UINT32 regAddr, UINT32 memIndex, UINT32 regIndex)
-// {
-//     unsigned long long int offset = (unsigned long long int) effectiveAddr - regAddr;
-    
-//     curr_instr.source_offsets[memIndex * NUM_INSTR_SOURCES + regIndex] = offset;
+void findOffset (VOID* effectiveAddr, UINT32 regAddr, UINT32 memIndex, UINT32 regIndex)
+{
+    curr_instr.offset = (unsigned long long int) effectiveAddr - regAddr;
 
-// }
+}
 
 /* ===================================================================== */
 // Instrumentation callbacks
