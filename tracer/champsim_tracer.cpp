@@ -318,7 +318,7 @@ void MemoryWrite(VOID* addr, UINT32 index)
 
 // This function is used to record the difference between effective memory and the
 // memory address stored in register 
-void findOffset (VOID* effectiveAddr, UINT32 regAddr, UINT32 memIndex, UINT32 regIndex)
+void findOffset (VOID* effectiveAddr, UINT32 regAddr)
 {
     curr_instr.offset = (unsigned long long int) effectiveAddr - regAddr;
 }
@@ -381,32 +381,23 @@ VOID Instruction(INS ins, VOID *v)
                     IARG_END);
         }
     }
-    
-    LEVEL_BASE::REG regNum = INS_RegR(ins, 0);
 
-    if (!LEVEL_BASE::REG_is_xmm_ymm_zmm(regNum))
-        INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)findOffset,
-                        IARG_MEMORYREAD_EA, IARG_REG_VALUE, regNum,
-                        IARG_UINT32, 0, IARG_UINT32, 0,
-                        IARG_END);
+    for (UINT32 memOp = 0; memOp < memOperands; memOp++) 
+    {
+        if (INS_MemoryOperandIsRead(ins, memOp)) 
+        {
+            for(UINT32 i=0; i<readRegCount; i++) 
+            {
+                LEVEL_BASE::REG regNum = INS_RegR(ins, i);
 
-    // for (UINT32 memOp = 0; memOp < memOperands; memOp++) 
-    // {
-    //     if (INS_MemoryOperandIsRead(ins, memOp)) 
-    //     {
-    //         for(UINT32 i=0; i<readRegCount; i++) 
-    //         {
-    //             LEVEL_BASE::REG regNum = INS_RegR(ins, i);
+                if (!LEVEL_BASE::REG_is_xmm_ymm_zmm(regNum))
 
-    //             if (!LEVEL_BASE::REG_is_xmm_ymm_zmm(regNum))
-
-    //                 INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)findOffset,
-    //                                 IARG_MEMORYREAD_EA, IARG_REG_VALUE, regNum,
-    //                                 IARG_UINT32, i, IARG_UINT32, memOp,
-    //                                 IARG_END);
-    //         }
-    //     }
-    // }
+                    INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)findOffset,
+                                    IARG_MEMORYREAD_EA, IARG_REG_VALUE, regNum,
+                                    IARG_END);
+            }
+        }
+    }
 
     // finalize each instruction with this function
     INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)EndInstruction, IARG_END);
