@@ -320,7 +320,7 @@ void MemoryWrite(VOID* addr, UINT32 index)
 // memory address stored in register 
 void findOffset (VOID* effectiveAddr, UINT32 regAddr)
 {
-    curr_instr.offset = (unsigned long long int) effectiveAddr - regAddr;
+    curr_instr.offset = (unsigned long long int) effectiveAddr - (unsigned long long int) regAddr;
 }
 
 /* ===================================================================== */
