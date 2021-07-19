@@ -382,33 +382,19 @@ VOID Instruction(INS ins, VOID *v)
         }
     }
 
-    if (INS_MemoryOperandIsRead(ins, 0)) 
+    for (UINT32 memOp = 0; memOp < memOperands; memOp++) 
     {
-        LEVEL_BASE::REG regNum = INS_RegR(ins, 0);
+        if (INS_MemoryOperandIsRead(ins, memOp)) 
+        {
+            LEVEL_BASE::REG regNum = INS_RegR(ins, 0);
 
-        if (!LEVEL_BASE::REG_is_xmm_ymm_zmm(regNum))
+            if (!LEVEL_BASE::REG_is_xmm_ymm_zmm(regNum))
 
-            INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)findOffset,
-                            IARG_MEMORYREAD_EA, IARG_REG_VALUE, regNum,
-                            IARG_END);
+                INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)findOffset,
+                                IARG_MEMORYREAD_EA, IARG_REG_VALUE, regNum,
+                                IARG_END);
+        }
     }
-
-    // for (UINT32 memOp = 0; memOp < memOperands; memOp++) 
-    // {
-    //     if (INS_MemoryOperandIsRead(ins, memOp)) 
-    //     {
-    //         for(UINT32 i=0; i<readRegCount; i++) 
-    //         {
-    //             LEVEL_BASE::REG regNum = INS_RegR(ins, i);
-
-    //             if (!LEVEL_BASE::REG_is_xmm_ymm_zmm(regNum))
-
-    //                 INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)findOffset,
-    //                                 IARG_MEMORYREAD_EA, IARG_REG_VALUE, regNum,
-    //                                 IARG_END);
-    //         }
-    //     }
-    // }
 
     // finalize each instruction with this function
     INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)EndInstruction, IARG_END);
