@@ -321,7 +321,7 @@ void MemoryWrite(VOID* addr, UINT32 index)
 void findOffset (VOID* effectiveAddr, UINT32 regAddr)
 {
     cout << "the effective address: " << effectiveAddr << endl ;
-    cout << "the address stored in register: " << regAddr << endl ;
+    cout << hex << "the address stored in register: 0x" << regAddr << dec << endl ;
     curr_instr.offset = (unsigned long long int) effectiveAddr - (unsigned long long int) regAddr;
 }
 
