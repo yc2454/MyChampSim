@@ -388,13 +388,14 @@ VOID Instruction(INS ins, VOID *v)
     {
         if (INS_MemoryOperandIsRead(ins, memOp)) 
         {
-            LEVEL_BASE::REG regNum = INS_RegR(ins, 0);
+            LEVEL_BASE::REG regNum = INS_RegR(ins, memOp);
 
             if (!LEVEL_BASE::REG_is_xmm_ymm_zmm(regNum))
 
                 INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)findOffset,
                                 IARG_MEMORYREAD_EA, IARG_REG_VALUE, regNum,
                                 IARG_END);
+
         }
     }
 
