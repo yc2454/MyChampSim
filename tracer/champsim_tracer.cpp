@@ -394,7 +394,7 @@ VOID Instruction(INS ins, VOID *v)
             if (!LEVEL_BASE::REG_is_xmm_ymm_zmm(regNum))
 
                 INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)findOffset,
-                                memOp, IARG_MEMORYREAD_EA, IARG_REG_VALUE, regNum, 
+                                IARG_UINT32, memOp, IARG_MEMORYREAD_EA, IARG_REG_VALUE, regNum, 
                                 IARG_END);
 
         }
