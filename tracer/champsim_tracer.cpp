@@ -20,7 +20,7 @@ typedef struct trace_instr_format {
     unsigned long long int ip;  // instruction pointer (program counter) value
     unsigned long long int op; // op code 
 
-    unsigned long long int offset;
+    unsigned long long int offset[2];
 
     unsigned char is_branch;    // is this branch
     unsigned char branch_taken; // if so, is this taken
