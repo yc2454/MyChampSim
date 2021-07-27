@@ -319,7 +319,7 @@ void MemoryWrite(VOID* addr, UINT32 index)
 
 // This function is used to record the difference between effective memory and the
 // memory address stored in register 
-void findOffset (VOID* effectiveAddr, ADDRINT regAddr, UINT32 index)
+void findOffset (UINT32 index, VOID* effectiveAddr, ADDRINT regAddr)
 {
     // cout << hex << "the effective address: " << (unsigned long long int) effectiveAddr << dec << endl ;
     // cout << hex << "the address stored in register: 0x" << (unsigned long long int) regAddr << dec << endl ;
@@ -394,7 +394,7 @@ VOID Instruction(INS ins, VOID *v)
             if (!LEVEL_BASE::REG_is_xmm_ymm_zmm(regNum))
 
                 INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)findOffset,
-                                IARG_MEMORYREAD_EA, IARG_REG_VALUE, regNum, memOp,
+                                memOp, IARG_MEMORYREAD_EA, IARG_REG_VALUE, regNum, 
                                 IARG_END);
 
         }
