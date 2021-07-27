@@ -104,7 +104,8 @@ void BeginInstruction(VOID *ip, UINT32 op_code, VOID *opstring)
     curr_instr.ip = (unsigned long long int)ip;
     curr_instr.op = (unsigned long long int)op_code;
 
-    curr_instr.offset = 0;
+    curr_instr.offset[0] = -1;
+    curr_instr.offset[1] = -1;
 
     curr_instr.is_branch = 0;
     curr_instr.branch_taken = 0;
@@ -318,11 +319,11 @@ void MemoryWrite(VOID* addr, UINT32 index)
 
 // This function is used to record the difference between effective memory and the
 // memory address stored in register 
-void findOffset (VOID* effectiveAddr, ADDRINT regAddr)
+void findOffset (VOID* effectiveAddr, ADDRINT regAddr, UINT32 index)
 {
     // cout << hex << "the effective address: " << (unsigned long long int) effectiveAddr << dec << endl ;
     // cout << hex << "the address stored in register: 0x" << (unsigned long long int) regAddr << dec << endl ;
-    curr_instr.offset = (unsigned long long int) effectiveAddr - (unsigned long long int) regAddr;
+    curr_instr.offset[index] = (unsigned long long int) effectiveAddr - (unsigned long long int) regAddr;
 }
 
 /* ===================================================================== */
@@ -393,7 +394,7 @@ VOID Instruction(INS ins, VOID *v)
             if (!LEVEL_BASE::REG_is_xmm_ymm_zmm(regNum))
 
                 INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)findOffset,
-                                IARG_MEMORYREAD_EA, IARG_REG_VALUE, regNum,
+                                IARG_MEMORYREAD_EA, IARG_REG_VALUE, regNum, memOp,
                                 IARG_END);
 
         }
