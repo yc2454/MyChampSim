@@ -20,8 +20,8 @@ typedef struct trace_instr_format {
     unsigned long long int ip;  // instruction pointer (program counter) value
     unsigned long long int op; // op code 
 
-    unsigned long long int offset1;
-    unsigned long long int offset2;
+    int offset1;
+    int offset2;
 
     unsigned char is_branch;    // is this branch
     unsigned char branch_taken; // if so, is this taken
@@ -325,9 +325,9 @@ void findOffset (UINT32 index, VOID* effectiveAddr, ADDRINT regAddr)
     // cout << hex << "the effective address: " << (unsigned long long int) effectiveAddr << dec << endl ;
     // cout << hex << "the address stored in register: 0x" << (unsigned long long int) regAddr << dec << endl ;
     if (index == 0)
-        curr_instr.offset1 = (unsigned long long int) effectiveAddr - (unsigned long long int) regAddr;
+        curr_instr.offset1 = (int) (effectiveAddr - regAddr);
     else 
-        curr_instr.offset2 = (unsigned long long int) effectiveAddr - (unsigned long long int) regAddr;
+        curr_instr.offset2 = (int) (effectiveAddr - regAddr);
 }
 
 /* ===================================================================== */
