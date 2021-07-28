@@ -385,6 +385,8 @@ VOID Instruction(INS ins, VOID *v)
         }
     }
 
+    cout << "MEMORY OPERANDS NUMBER: " << memOperands << endl;
+
     for (UINT32 memOp = 0; memOp < memOperands; memOp++) 
     {
         if (INS_MemoryOperandIsRead(ins, memOp)) 
