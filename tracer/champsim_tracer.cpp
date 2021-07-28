@@ -325,9 +325,9 @@ void findOffset (UINT32 index, VOID* effectiveAddr, ADDRINT regAddr)
     // cout << hex << "the effective address: " << (unsigned long long int) effectiveAddr << dec << endl ;
     // cout << hex << "the address stored in register: 0x" << (unsigned long long int) regAddr << dec << endl ;
     if (index == 0)
-        curr_instr.offset1 = (long long int) (effectiveAddr - regAddr);
+        curr_instr.offset1 = (long long int) ((unsigned long long int) effectiveAddr - regAddr);
     else 
-        curr_instr.offset2 = (long long int) (effectiveAddr - regAddr);
+        curr_instr.offset2 = (long long int) ((unsigned long long int) effectiveAddr - regAddr);
 }
 
 /* ===================================================================== */
