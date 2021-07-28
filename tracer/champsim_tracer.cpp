@@ -23,7 +23,8 @@ typedef struct trace_instr_format {
     unsigned char is_branch;    // is this branch
     unsigned char branch_taken; // if so, is this taken
 
-    unsigned long long int offset[2];
+    unsigned long long int offset1;
+    unsigned long long int offset2;
 
     unsigned char destination_registers[NUM_INSTR_DESTINATIONS]; // output registers
     unsigned char source_registers[NUM_INSTR_SOURCES];           // input registers
@@ -104,8 +105,8 @@ void BeginInstruction(VOID *ip, UINT32 op_code, VOID *opstring)
     curr_instr.ip = (unsigned long long int)ip;
     curr_instr.op = (unsigned long long int)op_code;
 
-    curr_instr.offset[0] = -1;
-    curr_instr.offset[1] = -1;
+    curr_instr.offset1 = -1;
+    curr_instr.offset2 = -1;
 
     curr_instr.is_branch = 0;
     curr_instr.branch_taken = 0;
@@ -323,7 +324,10 @@ void findOffset (UINT32 index, VOID* effectiveAddr, ADDRINT regAddr)
 {
     // cout << hex << "the effective address: " << (unsigned long long int) effectiveAddr << dec << endl ;
     // cout << hex << "the address stored in register: 0x" << (unsigned long long int) regAddr << dec << endl ;
-    curr_instr.offset[index] = (unsigned long long int) effectiveAddr - (unsigned long long int) regAddr;
+    if (index == 0)
+        curr_instr.offset1 = (unsigned long long int) effectiveAddr - (unsigned long long int) regAddr;
+    else 
+        curr_instr.offset2 = (unsigned long long int) effectiveAddr - (unsigned long long int) regAddr;
 }
 
 /* ===================================================================== */
@@ -384,8 +388,6 @@ VOID Instruction(INS ins, VOID *v)
                     IARG_END);
         }
     }
-
-    cout << "MEMORY OPERANDS NUMBER: " << memOperands << endl;
 
     for (UINT32 memOp = 0; memOp < memOperands; memOp++) 
     {
