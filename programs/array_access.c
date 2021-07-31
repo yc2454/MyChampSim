@@ -4,6 +4,10 @@ struct Node
     struct Node* next;
 };
 
+void do_work(struct Node* node) {
+    node->field[6] = node->field[5] + node->field[4];
+}
+
 void simple_chase(struct Node *node, int count){
     for (int i = 0; i < count; i++)
     {
@@ -11,8 +15,4 @@ void simple_chase(struct Node *node, int count){
         node = node->next;
     }
     
-}
-
-void do_work(struct Node* node) {
-    node->field[6] = node->field[5] + node->field[4];
 }
