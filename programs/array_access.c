@@ -16,3 +16,7 @@ void simple_chase(struct Node *node, int count){
     }
     
 }
+
+int main() {
+    return 0;
+}
