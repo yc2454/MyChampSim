@@ -17,10 +17,11 @@
 using namespace std;
 
 typedef struct trace_instr_format {
-    long long int offset1;
+    // long long int offset1;
     long long int offset2;
     
     unsigned long long int ip;  // instruction pointer (program counter) value
+    long long int offset1;
     unsigned long long int op; // op code 
 
     unsigned char is_branch;    // is this branch
