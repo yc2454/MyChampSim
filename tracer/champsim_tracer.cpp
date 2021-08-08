@@ -28,8 +28,9 @@ typedef struct trace_instr_format {
     
     unsigned char is_branch;    // is this branch
     unsigned char branch_taken; // if so, is this taken
-    long long int offset1;
+    
     unsigned char destination_registers[NUM_INSTR_DESTINATIONS]; // output registers
+    long long int offset1;
     unsigned char source_registers[NUM_INSTR_SOURCES];           // input registers
 
     unsigned long long int destination_memory[NUM_INSTR_DESTINATIONS]; // output memory
