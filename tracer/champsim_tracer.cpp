@@ -18,7 +18,7 @@ using namespace std;
 
 typedef struct trace_instr_format {
     // long long int offset1;
-    long long int offset2;
+    
     
     unsigned long long int ip;  // instruction pointer (program counter) value
     
@@ -30,6 +30,7 @@ typedef struct trace_instr_format {
     unsigned char branch_taken; // if so, is this taken
     
     unsigned char destination_registers[NUM_INSTR_DESTINATIONS]; // output registers
+    long long int offset2;
     long long int offset1;
     unsigned char source_registers[NUM_INSTR_SOURCES];           // input registers
 
