@@ -6,7 +6,7 @@ if [ "$#" -lt 4 ]; then
     exit 1
 fi
 
-TRACE_DIR=/scratch/cluster/akanksha/CRCRealTraces/
+TRACE_DIR=/home/yc468/MyChampSim
 BINARY=${1}
 N_WARM=${2}
 N_SIM=${3}
