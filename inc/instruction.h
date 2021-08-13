@@ -113,7 +113,8 @@ class cloudsuite_instr {
 
 class ooo_model_instr {
   public:
-    uint64_t ip,
+    uint64_t instr_id,
+             ip,
              op,
              fetch_producer,
              producer_id,
@@ -186,6 +187,7 @@ class ooo_model_instr {
              forwarding_index[NUM_INSTR_DESTINATIONS_SPARC];
 
     ooo_model_instr() {
+        instr_id = 0;
         ip = 0;
         op = 0;
         offset1 = 42;
