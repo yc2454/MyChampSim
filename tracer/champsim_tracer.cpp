@@ -1,10 +1,7 @@
-
 /*! @file
  *  This is an example of the PIN tool that demonstrates some basic PIN APIs 
  *  and could serve as the starting point for developing your first PIN tool
  */
-
-// pin-3.2-81205-gcc-linux/pin -injection child -ifeellucky -t ChampSim/tracer/obj-intel64/champsim_tracer.so -o simple_array_trace -- MyChampSim/programs/simple_array
 
 #include "pin.H"
 #include <iostream>
@@ -23,12 +20,11 @@ typedef struct trace_instr_format {
     long long int offset2;
     
     unsigned long long int ip;  // instruction pointer (program counter) value
-    
     unsigned long long int op; // op code 
-    
+
     unsigned char is_branch;    // is this branch
     unsigned char branch_taken; // if so, is this taken
-    
+
     unsigned char destination_registers[NUM_INSTR_DESTINATIONS]; // output registers
     unsigned char source_registers[NUM_INSTR_SOURCES];           // input registers
 
