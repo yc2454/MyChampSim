@@ -26,8 +26,6 @@ typedef struct trace_instr_format {
     
     unsigned long long int op; // op code 
     
-    
-    
     unsigned char is_branch;    // is this branch
     unsigned char branch_taken; // if so, is this taken
     
