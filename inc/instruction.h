@@ -27,17 +27,27 @@
 
 #include "set.h"
 
+using namespace std;
+
 class input_instr {
   public:
 
+    // constant offset between memory read and value stored in reg
+    long long int offset1;
+    long long int offset2;
+    
     // instruction pointer or PC (Program Counter)
     uint64_t ip;
+
+    // operation code 
+    uint64_t op;
 
     // branch info
     uint8_t is_branch;
     uint8_t branch_taken;
 
     uint8_t destination_registers[NUM_INSTR_DESTINATIONS]; // output registers
+    
     uint8_t source_registers[NUM_INSTR_SOURCES]; // input registers
 
     uint64_t destination_memory[NUM_INSTR_DESTINATIONS]; // output memory
@@ -45,6 +55,9 @@ class input_instr {
 
     input_instr() {
         ip = 0;
+        op = 0;
+        offset1 = 42;
+        offset2 = 42;
         is_branch = 0;
         branch_taken = 0;
 
@@ -100,8 +113,8 @@ class cloudsuite_instr {
 
 class ooo_model_instr {
   public:
-    uint64_t instr_id,
-             ip,
+    uint64_t ip,
+             op,
              fetch_producer,
              producer_id,
              translated_cycle,
@@ -129,6 +142,9 @@ class ooo_model_instr {
 
     uint8_t branch_type;
     uint64_t branch_target;
+
+    long long int offset1;
+    long long int offset2;
 
     uint32_t fetched, scheduled;
     int num_reg_ops, num_mem_ops, num_reg_dependent;
@@ -170,8 +186,10 @@ class ooo_model_instr {
              forwarding_index[NUM_INSTR_DESTINATIONS_SPARC];
 
     ooo_model_instr() {
-        instr_id = 0;
         ip = 0;
+        op = 0;
+        offset1 = 42;
+        offset2 = 42;
         fetch_producer = 0;
         producer_id = 0;
         translated_cycle = 0;
@@ -241,24 +259,31 @@ class ooo_model_instr {
 
   void print_instr()
   {
-    cout << "*** " << instr_id << " ***" << endl;
-    cout << hex << "0x" << (uint64_t)ip << dec << endl;
+    // cout << "*** " << instr_id << " ***" << endl;
+    cout << hex << "ip: 0x" << (uint64_t)ip << dec << endl;
+    cout << hex << "op: 0x" << (uint64_t)op << dec << endl;
+    cout << "first offset: " << offset1 << endl;
+    cout << "second offset: " << offset2 << endl;
     cout << (uint32_t)is_branch << " " << (uint32_t)branch_taken << endl;
+    cout << "source registers:";
     for(uint32_t i=0; i<NUM_INSTR_SOURCES; i++)
       {
 	cout << (uint32_t)source_registers[i] << " ";
       }
     cout << endl;
+    cout << "source memory location:";
     for(uint32_t i=0; i<NUM_INSTR_SOURCES; i++)
       {
 	cout << hex << "0x" << (uint32_t)source_memory[i] << dec << " ";
       }
     cout << endl;
+    cout << "destination registers:";
     for(uint32_t i=0; i<NUM_INSTR_DESTINATIONS; i++)
       {
 	cout << (uint32_t)destination_registers[i] << " ";
       }
     cout << endl;
+    cout << "destination memory location:";
     for(uint32_t i=0; i<NUM_INSTR_DESTINATIONS; i++)
       {
         cout << hex << "0x" << (uint32_t)destination_memory[i] << dec << " ";
