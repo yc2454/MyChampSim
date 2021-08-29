@@ -43,6 +43,10 @@ FILE* out;
 
 bool output_file_closed = false;
 bool tracing_on = false;
+bool isROI = false;
+
+const CHAR * ROI_BEGIN = "__parsec_roi_begin";
+const CHAR * ROI_END = "__parsec_roi_end";
 
 trace_instr_format_t curr_instr;
 
@@ -326,6 +330,50 @@ void findOffset (UINT32 index, VOID* effectiveAddr, ADDRINT regAddr)
         curr_instr.offset2 = (long long int) ((unsigned long long int) effectiveAddr - regAddr);
 }
 
+// Set ROI flag
+VOID StartROI()
+{
+    isROI = true;
+}
+
+// Set ROI flag
+VOID StopROI()
+{
+    isROI = false;
+}
+
+void printFuncName (INS ins) {
+    
+    const CHAR * name = "invalid";
+
+    if(RTN_Valid(INS_Rtn(ins))) 
+    {
+        name = RTN_Name(INS_Rtn(ins)).c_str();
+    }
+
+    cout << name << "\n" << endl;
+
+}
+
+// Pin calls this function every time a new rtn is executed
+VOID Routine(RTN rtn, VOID *v)
+{
+    // Get routine name
+    const CHAR * name = RTN_Name(rtn).c_str();
+
+    if(strcmp(name,ROI_BEGIN) == 0) {
+        // Start tracing after ROI begin exec
+        RTN_Open(rtn);
+        RTN_InsertCall(rtn, IPOINT_AFTER, (AFUNPTR)StartROI, IARG_END);
+        RTN_Close(rtn);
+    } else if (strcmp(name,ROI_END) == 0) {
+        // Stop tracing before ROI end exec
+        RTN_Open(rtn);
+        RTN_InsertCall(rtn, IPOINT_BEFORE, (AFUNPTR)StopROI, IARG_END);
+        RTN_Close(rtn);
+    }
+}
+
 /* ===================================================================== */
 // Instrumentation callbacks
 /* ===================================================================== */
@@ -333,7 +381,15 @@ void findOffset (UINT32 index, VOID* effectiveAddr, ADDRINT regAddr)
 // Is called for every instruction and instruments reads and writes
 VOID Instruction(INS ins, VOID *v)
 {
-    cout << __FUNCTION__ << endl;
+    const CHAR * name = "invalid";
+
+    if(RTN_Valid(INS_Rtn(ins))) 
+    {
+        name = RTN_Name(INS_Rtn(ins)).c_str();
+    }
+
+    cout << name << "\n" << endl;
+    
     // begin each instruction with this function
     UINT32 opcode = INS_Opcode(ins);
     INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)BeginInstruction, IARG_INST_PTR, IARG_UINT32, opcode, IARG_END);
@@ -446,6 +502,7 @@ int main(int argc, char *argv[])
     }
 
     // Register function to be called to instrument instructions
+    RTN_AddInstrumentFunction(Routine, 0);
     INS_AddInstrumentFunction(Instruction, 0);
 
     // Register function to be called when the application exits
