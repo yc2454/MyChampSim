@@ -333,6 +333,7 @@ void findOffset (UINT32 index, VOID* effectiveAddr, ADDRINT regAddr)
 // Is called for every instruction and instruments reads and writes
 VOID Instruction(INS ins, VOID *v)
 {
+    cout << __FUNCTION__ << endl;
     // begin each instruction with this function
     UINT32 opcode = INS_Opcode(ins);
     INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)BeginInstruction, IARG_INST_PTR, IARG_UINT32, opcode, IARG_END);
